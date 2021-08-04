@@ -19,7 +19,7 @@ class WebGlComponent extends Canvas {
          * @member {Object} _vdom
          */
         _vdom:
-        {tag: 'd3fc-group', 'auto-resize': true, cn: [
+        {tag: 'd3fc-group', 'auto-resize': true, cls: ['neo-canvas-wrapper'], cn: [
             {tag: 'd3fc-canvas', cn: [
                 {tag: 'canvas'}
             ]}
@@ -52,7 +52,7 @@ class WebGlComponent extends Canvas {
                 domListeners = me.domListeners;
 
             domListeners.push(
-                {measure: me.onMeasure, scope: me}
+                {measure: me.onMeasure, scope: me} // custom d3fc dom event
             );
 
             me.domListeners = domListeners;
