@@ -1,1 +1,1 @@
-console.log('imported');
+import Helper from './canvas/Helper.mjs';
