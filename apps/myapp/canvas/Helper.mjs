@@ -15,6 +15,9 @@ import '../../../node_modules/@d3fc/d3fc-rebind/build/d3fc-rebind.js';
 import '../../../node_modules/@d3fc/d3fc-series/build/d3fc-series.js';
 import '../../../node_modules/@d3fc/d3fc-webgl/build/d3fc-webgl.js';
 
+const xScale = d3.scaleLinear().domain([-5, 5]),
+      yScale = d3.scaleLinear().domain([-5, 5]);
+
 /**
  * @class MyApp.canvas.Helper
  * @extends Neo.core.Base
@@ -39,7 +42,11 @@ class Helper extends Base {
         /**
          * @member {Object[]|null} data=null
          */
-        data: null
+        data: null,
+        /**
+         * @member {Function|null} series=null
+         */
+        series: null
     }}
 
     /**
@@ -47,9 +54,10 @@ class Helper extends Base {
      */
     constructor(config) {
         super(config);
-        console.log('Helper ready');
+
         this.generateData();
-        console.log(this.data);
+        this.generateSeries()
+        console.log(typeof this.series);
     }
 
     /**
@@ -64,6 +72,51 @@ class Helper extends Base {
             y   : randomNormal(),
             size: randomLogNormal() * 10
         }));
+    }
+
+    /**
+     *
+     */
+    generateSeries() {
+        let colorScale = d3.scaleOrdinal(d3.schemeAccent),
+
+        series = fc
+            .seriesWebglPoint()
+            .xScale(xScale)
+            .yScale(yScale)
+            .crossValue(d => d.x)
+            .mainValue(d => d.y)
+            .size(d => d.size)
+            .equals((previousData, data) => previousData.length > 0),
+
+        webglColor = color => {
+            const { r, g, b, opacity } = d3.color(color).rgb();
+            return [r / 255, g / 255, b / 255, opacity];
+        },
+
+        fillColor = fc
+            .webglFillColor()
+            .value((d, i) => webglColor(colorScale(i)))
+            .data(this.data);
+
+        series.decorate(program => {
+            fillColor(program);
+        });
+
+        this.series = series;
+    }
+
+    /**
+     *
+     */
+    render() {
+        let me   = this,
+            ease = 5 * (0.51 + 0.49 * Math.sin(Date.now() / 1e3));
+
+        xScale.domain([-ease, ease]);
+        yScale.domain([-ease, ease]);
+        me.series(me.data);
+        requestAnimationFrame(me.render);
     }
 }
 
