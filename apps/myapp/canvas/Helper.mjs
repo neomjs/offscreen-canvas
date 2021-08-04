@@ -44,12 +44,14 @@ class Helper extends Base {
          */
         itemsAmount: 1000,
         /**
+         * Remote method access for other workers
          * @member {Object} remote={app:['renderSeries']}
          * @protected
          */
         remote: {
             app: [
-                'renderSeries'
+                'renderSeries',
+                'updateSize'
             ]
         },
         /**
@@ -65,8 +67,7 @@ class Helper extends Base {
         super(config);
 
         this.generateData();
-        this.generateSeries()
-        console.log(typeof this.series);
+        this.generateSeries();
     }
 
     /**
@@ -133,11 +134,28 @@ class Helper extends Base {
     /**
      * @param {String} canvasId
      */
-    renderSeries(canvasId) {console.log(Neo.currentWorker.map);
+    renderSeries(canvasId) {console.log(canvasId);
         let webGl = Neo.currentWorker.map[canvasId].getContext('webgl');
 
         this.series.context(webGl);
         this.render();
+    }
+
+    /**
+     *
+     * @param {Object} data
+     * @param {Number} data.height
+     * @param {Number} data.width
+     */
+    updateSize(data) {
+        let webGl = this.series.context();
+
+        Object.assign(webGl.canvas, {
+            height: data.height,
+            width : data.width
+        });
+
+        webGl.viewport(0, 0, webGl.canvas.width, webGl.canvas.height);
     }
 }
 

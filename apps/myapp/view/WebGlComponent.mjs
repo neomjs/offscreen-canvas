@@ -94,10 +94,15 @@ class WebGlComponent extends Canvas {
     }
 
     /**
-     * @param {Object} detail
+     * @param {Object} data
      */
-    onMeasure(detail) {
-        console.log('onMeasure', detail);
+    onMeasure(data) {
+        let node = data.path[0];
+
+        MyApp.canvas.Helper.updateSize({
+            height: node.clientHeight,
+            width : node.clientWidth
+        });
     }
 }
 
