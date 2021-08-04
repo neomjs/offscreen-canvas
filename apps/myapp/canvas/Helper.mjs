@@ -90,7 +90,7 @@ class Helper extends Base {
             .equals((previousData, data) => previousData.length > 0),
 
         webglColor = color => {
-            const { r, g, b, opacity } = d3.color(color).rgb();
+            let { r, g, b, opacity } = d3.color(color).rgb();
             return [r / 255, g / 255, b / 255, opacity];
         },
 
@@ -115,7 +115,9 @@ class Helper extends Base {
 
         xScale.domain([-ease, ease]);
         yScale.domain([-ease, ease]);
+
         me.series(me.data);
+
         requestAnimationFrame(me.render);
     }
 }
