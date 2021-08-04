@@ -16,9 +16,9 @@ class WebGlComponent extends Canvas {
      * @protected
      */
     afterSetOffscreenRegistered(value, oldValue) {
-        super.afterSetMounted(value, oldValue);
-
-        console.log('afterSetOffscreenRegistered');
+        if (value) {
+            console.log('afterSetOffscreenRegistered', value);
+        }
     }
 }
 

@@ -1,5 +1,6 @@
-import Toolbar  from '../../../node_modules/neo.mjs/src/container/Toolbar.mjs';
-import Viewport from '../../../node_modules/neo.mjs/src/container/Viewport.mjs';
+import Toolbar        from '../../../node_modules/neo.mjs/src/container/Toolbar.mjs';
+import Viewport       from '../../../node_modules/neo.mjs/src/container/Viewport.mjs';
+import WebGlComponent from './WebGlComponent.mjs';
 
 /**
  * @class MyApp.view.MainContainer
@@ -12,8 +13,8 @@ class MainContainer extends Viewport {
         layout   : {ntype: 'vbox', align: 'stretch'},
 
         items: [{
-            ntype: 'component',
-            flex : 1
+            module: WebGlComponent,
+            flex  : 1
         }, {
             module: Toolbar,
             flex  : 'none',
