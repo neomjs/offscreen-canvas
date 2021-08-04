@@ -8,10 +8,22 @@ import WebGlComponent from './WebGlComponent.mjs';
  */
 class MainContainer extends Viewport {
     static getConfig() {return {
+        /**
+         * @member {String} className='MyApp.view.MainContainer'
+         * @protected
+         */
         className: 'MyApp.view.MainContainer',
+        /**
+         * @member {Boolean} autoMount=true
+         */
         autoMount: true,
-        layout   : {ntype: 'vbox', align: 'stretch'},
-
+        /**
+         * @member {Object} layout={ntype:'vbox',align:'stretch'}
+         */
+        layout: {ntype: 'vbox', align: 'stretch'},
+        /**
+         * @member {Object[]} items
+         */
         items: [{
             module: WebGlComponent,
             flex  : 1
