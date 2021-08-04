@@ -11,6 +11,13 @@ class WebGlComponent extends Canvas {
          * @protected
          */
         className: 'MyApp.view.WebGlComponent',
+        /**
+         * @member {String[]} cls=['neo-webgl-component']
+         */
+        cls: ['neo-webgl-component'],
+        /**
+         * @member {Object} _vdom
+         */
         _vdom:
         {tag: 'd3fc-group', 'auto-resize': true, cn: [
             {tag: 'd3fc-canvas', cn: [
