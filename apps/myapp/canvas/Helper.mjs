@@ -133,10 +133,10 @@ class Helper extends Base {
     /**
      * @param {String} canvasId
      */
-    renderSeries(canvasId) {
-        let gl = Neo.currentWorker.map[canvasId].getContext('webgl');
+    renderSeries(canvasId) {console.log(Neo.currentWorker.map);
+        let webGl = Neo.currentWorker.map[canvasId].getContext('webgl');
 
-        this.series.context(gl);
+        this.series.context(webGl);
         this.render();
     }
 }

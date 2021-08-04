@@ -10,8 +10,28 @@ class WebGlComponent extends Canvas {
          * @member {String} className='MyApp.view.WebGlComponent'
          * @protected
          */
-        className: 'MyApp.view.WebGlComponent'
+        className: 'MyApp.view.WebGlComponent',
+        _vdom:
+        {tag: 'd3fc-group', 'auto-resize': true, cn: [
+            {tag: 'd3fc-canvas', cn: [
+                {tag: 'canvas'}
+            ]}
+        ]}
     }}
+
+    /**
+     *
+     * @param {String} value
+     * @param {String} oldValue
+     */
+    afterSetId(value, oldValue) {
+        let me = this;
+
+        me.vdom.id = me.getWrapperId();
+        me.vdom.cn[0].cn[0].id = `${value}__canvas`;
+
+        super.afterSetId(value, oldValue);
+    }
 
     /**
      * Triggered after the offscreenRegistered config got changed
@@ -21,9 +41,56 @@ class WebGlComponent extends Canvas {
      */
     afterSetOffscreenRegistered(value, oldValue) {
         if (value) {
+            let me           = this,
+                domListeners = me.domListeners;
+
+            domListeners.push(
+                {measure: me.onMeasure, scope: me}
+            );
+
+            me.domListeners = domListeners;
+
             // remote method access to the canvas worker
-            MyApp.canvas.Helper.renderSeries(this.id);
+            MyApp.canvas.Helper.renderSeries(this.getCanvasId());
         }
+    }
+
+    /**
+     * Override this method when using wrappers (e.g. D3)
+     * @returns {String}
+     */
+    getCanvasId() {
+        return this.vdom.cn[0].cn[0].id;
+    }
+
+
+    /**
+     * @returns {Object} The new vdom root
+     */
+    getVdomRoot() {
+        return this.vdom.cn[0];
+    }
+
+    /**
+     * @returns {Object} The new vnode root
+     */
+    getVnodeRoot() {
+        return this.vnode.childNodes[0];
+    }
+
+    /**
+     *
+     * @returns {String}
+     */
+    getWrapperId() {
+        return `${this.id}__wrapper`;
+    }
+
+    /**
+     * @param {Object} detail
+     */
+    onMeasure(detail) {
+        console.log('onMeasure', detail);
     }
 }
 
