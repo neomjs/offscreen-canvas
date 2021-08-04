@@ -21,7 +21,7 @@ class WebGlComponent extends Canvas {
      */
     afterSetOffscreenRegistered(value, oldValue) {
         if (value) {
-            console.log('afterSetOffscreenRegistered', value);
+            MyApp.canvas.Helper.renderSeries(this.id);
         }
     }
 }

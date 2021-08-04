@@ -44,6 +44,15 @@ class Helper extends Base {
          */
         data: null,
         /**
+         * @member {Object} remote={app:['renderSeries']}
+         * @protected
+         */
+        remote: {
+            app: [
+                'renderSeries'
+            ]
+        },
+        /**
          * @member {Function|null} series=null
          */
         series: null
@@ -118,7 +127,17 @@ class Helper extends Base {
 
         me.series(me.data);
 
-        requestAnimationFrame(me.render);
+        requestAnimationFrame(me.render.bind(me));
+    }
+
+    /**
+     * @param {String} canvasId
+     */
+    renderSeries(canvasId) {
+        let gl = Neo.currentWorker.map[canvasId].getContext('webgl');
+
+        this.series.context(gl);
+        this.render();
     }
 }
 
