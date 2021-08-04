@@ -42,7 +42,7 @@ class Helper extends Base {
         /**
          * @member {Number} itemsAmount=1000
          */
-        itemsAmount: 1000,
+        itemsAmount: 10000,
         /**
          * Remote method access for other workers
          * @member {Object} remote={app:['renderSeries']}
