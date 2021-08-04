@@ -3,5 +3,6 @@
     "basePath": "../../",
     "environment": "development",
     "mainPath": "../node_modules/neo.mjs/src/Main.mjs",
+    "useCanvasWorker": true,
     "workerBasePath": "../../node_modules/neo.mjs/src/worker/"
 }
