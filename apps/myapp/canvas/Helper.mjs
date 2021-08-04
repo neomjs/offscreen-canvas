@@ -22,12 +22,19 @@ import '../../../node_modules/@d3fc/d3fc-webgl/build/d3fc-webgl.js';
  */
 class Helper extends Base {
     static getConfig() {return {
+        /**
+         * @member {String} className='MyApp.canvas.Helper'
+         * @protected
+         */
         className: 'MyApp.canvas.Helper',
+        /**
+         * @member {Boolean} singleton=true
+         * @protected
+         */
         singleton: true
     }}
 
     /**
-     *
      * @param {Object} config
      */
     constructor(config) {
