@@ -21,6 +21,7 @@ class WebGlComponent extends Canvas {
      */
     afterSetOffscreenRegistered(value, oldValue) {
         if (value) {
+            // remote method access to the canvas worker
             MyApp.canvas.Helper.renderSeries(this.id);
         }
     }
