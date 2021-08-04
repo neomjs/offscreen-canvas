@@ -31,7 +31,15 @@ class Helper extends Base {
          * @member {Boolean} singleton=true
          * @protected
          */
-        singleton: true
+        singleton: true,
+        /**
+         * @member {Number} amountItems=1000
+         */
+        amountItems: 1000,
+        /**
+         * @member {Object[]|null} data=null
+         */
+        data: null
     }}
 
     /**
@@ -40,6 +48,22 @@ class Helper extends Base {
     constructor(config) {
         super(config);
         console.log('Helper ready');
+        this.generateData();
+        console.log(this.data);
+    }
+
+    /**
+     *
+     */
+    generateData() {
+        let randomNormal    = d3.randomNormal(0, 1),
+            randomLogNormal = d3.randomLogNormal();
+
+        this.data = Array.from({ length: this.amountItems }, () => ({
+            x   : randomNormal(),
+            y   : randomNormal(),
+            size: randomLogNormal() * 10
+        }));
     }
 }
 
