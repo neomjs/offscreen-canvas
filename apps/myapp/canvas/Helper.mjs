@@ -36,13 +36,13 @@ class Helper extends Base {
          */
         singleton: true,
         /**
-         * @member {Number} amountItems=1000
-         */
-        amountItems: 1000,
-        /**
          * @member {Object[]|null} data=null
          */
         data: null,
+        /**
+         * @member {Number} itemsAmount=1000
+         */
+        itemsAmount: 1000,
         /**
          * @member {Object} remote={app:['renderSeries']}
          * @protected
@@ -76,7 +76,7 @@ class Helper extends Base {
         let randomNormal    = d3.randomNormal(0, 1),
             randomLogNormal = d3.randomLogNormal();
 
-        this.data = Array.from({ length: this.amountItems }, () => ({
+        this.data = Array.from({ length: this.itemsAmount }, () => ({
             x   : randomNormal(),
             y   : randomNormal(),
             size: randomLogNormal() * 10
