@@ -15,6 +15,7 @@ class MainContainer extends Viewport {
         className: 'MyApp.view.MainContainer',
         /**
          * @member {Boolean} autoMount=true
+         * @protected
          */
         autoMount: true,
         /**

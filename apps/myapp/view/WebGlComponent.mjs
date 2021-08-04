@@ -6,6 +6,10 @@ import Canvas from '../../../node_modules/neo.mjs/src/component/Canvas.mjs';
  */
 class WebGlComponent extends Canvas {
     static getConfig() {return {
+        /**
+         * @member {String} className='MyApp.view.WebGlComponent'
+         * @protected
+         */
         className: 'MyApp.view.WebGlComponent'
     }}
 
