@@ -57,7 +57,7 @@ class Helper extends Base {
         /**
          * @member {Function|null} yScale=null
          */
-        yScale: null,
+        yScale: null
     }}
 
     /**
@@ -68,9 +68,7 @@ class Helper extends Base {
 
         let me = this;
 
-        me.promiseImportD3().then(modules => {
-            console.log(modules);
-
+        me.promiseImportD3().then(() => {
             me.xScale = d3.scaleLinear().domain([-5, 5]);
             me.yScale = d3.scaleLinear().domain([-5, 5]);
 
@@ -203,6 +201,7 @@ class Helper extends Base {
 
         if (!self.fc) {
             self.fc = {};
+            console.log('copy to fc namespace');
 
             modules.forEach(item => {
                 if (Object.keys(item).length > 0) {
