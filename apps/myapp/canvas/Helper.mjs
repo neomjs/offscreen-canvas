@@ -1,23 +1,5 @@
 import Base from '../../../node_modules/neo.mjs/src/core/Base.mjs';
 
-import '../../../node_modules/d3-array/dist/d3-array.js';
-import '../../../node_modules/d3-color/dist/d3-color.js';
-import '../../../node_modules/d3-format/dist/d3-format.js';
-import '../../../node_modules/d3-interpolate/dist/d3-interpolate.js';
-import '../../../node_modules/d3-scale-chromatic/dist/d3-scale-chromatic.js';
-import '../../../node_modules/d3-random/dist/d3-random.js';
-import '../../../node_modules/d3-scale/dist/d3-scale.js';
-import '../../../node_modules/d3-shape/dist/d3-shape.js';
-import '../../../node_modules/d3-time-format/dist/d3-time-format.js';
-import '../../../node_modules/@d3fc/d3fc-extent/build/d3fc-extent.js';
-import '../../../node_modules/@d3fc/d3fc-random-data/build/d3fc-random-data.js';
-import '../../../node_modules/@d3fc/d3fc-rebind/build/d3fc-rebind.js';
-import '../../../node_modules/@d3fc/d3fc-series/build/d3fc-series.js';
-import '../../../node_modules/@d3fc/d3fc-webgl/build/d3fc-webgl.js';
-
-const xScale = d3.scaleLinear().domain([-5, 5]),
-      yScale = d3.scaleLinear().domain([-5, 5]);
-
 /**
  * @class MyApp.canvas.Helper
  * @extends Neo.core.Base
@@ -67,7 +49,15 @@ class Helper extends Base {
         /**
          * @member {Boolean} stopAnimation_=false
          */
-        stopAnimation_: false
+        stopAnimation_: false,
+        /**
+         * @member {Function|null} xScale=null
+         */
+        xScale: null,
+        /**
+         * @member {Function|null} yScale=null
+         */
+        yScale: null,
     }}
 
     /**
@@ -76,8 +66,20 @@ class Helper extends Base {
     constructor(config) {
         super(config);
 
-        this.generateData();
-        this.generateSeries();
+        let me = this;
+
+        me.promiseImportD3().then(modules => {
+            console.log(modules);
+            console.log(self); // todo: d3fc => fc is undefined in dist versions
+
+            me.xScale = d3.scaleLinear().domain([-5, 5]);
+            me.yScale = d3.scaleLinear().domain([-5, 5]);
+
+            console.log(d3);
+
+            me.generateData();
+            me.generateSeries();
+        });
     }
 
     /**
@@ -130,7 +132,7 @@ class Helper extends Base {
     generateData() {
         let randomNormal    = d3.randomNormal(0, 1),
             randomLogNormal = d3.randomLogNormal();
-
+console.log('check');
         this.data = Array.from({ length: this.itemsAmount }, () => ({
             x   : randomNormal(),
             y   : randomNormal(),
@@ -142,12 +144,13 @@ class Helper extends Base {
      *
      */
     generateSeries() {
-        let colorScale = d3.scaleOrdinal(d3.schemeAccent),
+        let me         = this,
+            colorScale = d3.scaleOrdinal(d3.schemeAccent),
 
         series = fc
             .seriesWebglPoint()
-            .xScale(xScale)
-            .yScale(yScale)
+            .xScale(me.xScale)
+            .yScale(me.yScale)
             .crossValue(d => d.x)
             .mainValue(d => d.y)
             .size(d => d.size)
@@ -161,11 +164,36 @@ class Helper extends Base {
         fillColor = fc
             .webglFillColor()
             .value((d, i) => webglColor(colorScale(i)))
-            .data(this.data);
+            .data(me.data);
 
         series.decorate(program => fillColor(program));
 
-        this.series = series;
+        me.series = series;
+    }
+
+    /**
+     * Dynamically import all d3 related dependencies
+     * @returns {Promise<(*)[]>}
+     */
+    promiseImportD3() {
+        let imports = [
+            import('../../../node_modules/d3-array/dist/d3-array.js'),
+            import('../../../node_modules/d3-color/dist/d3-color.js'),
+            import('../../../node_modules/d3-format/dist/d3-format.js'),
+            import('../../../node_modules/d3-interpolate/dist/d3-interpolate.js'),
+            import('../../../node_modules/d3-scale-chromatic/dist/d3-scale-chromatic.js'),
+            import('../../../node_modules/d3-random/dist/d3-random.js'),
+            import('../../../node_modules/d3-scale/dist/d3-scale.js'),
+            import('../../../node_modules/d3-shape/dist/d3-shape.js'),
+            import('../../../node_modules/d3-time-format/dist/d3-time-format.js'),
+            import('../../../node_modules/@d3fc/d3fc-extent/build/d3fc-extent.js'),
+            import('../../../node_modules/@d3fc/d3fc-random-data/build/d3fc-random-data.js'),
+            import('../../../node_modules/@d3fc/d3fc-rebind/build/d3fc-rebind.js'),
+            import('../../../node_modules/@d3fc/d3fc-series/build/d3fc-series.js'),
+            import('../../../node_modules/@d3fc/d3fc-webgl/build/d3fc-webgl.js')
+        ];
+
+        return Promise.all(imports);
     }
 
     /**
@@ -176,8 +204,8 @@ class Helper extends Base {
             ease = 5 * (0.51 + 0.49 * Math.sin(Date.now() / 1e3));
 
         if (!me.stopAnimation) {
-            xScale.domain([-ease, ease]);
-            yScale.domain([-ease, ease]);
+            me.xScale.domain([-ease, ease]);
+            me.yScale.domain([-ease, ease]);
 
             me.series(me.data);
 
