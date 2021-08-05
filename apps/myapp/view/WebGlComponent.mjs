@@ -102,7 +102,6 @@ class WebGlComponent extends Canvas {
      */
     onMeasure(data) {
         let node = data.path[0];
-
         this.updateSize(node.clientHeight, node.clientWidth);
     }
 
@@ -111,10 +110,7 @@ class WebGlComponent extends Canvas {
      * @param {Number} width
      */
     updateSize(height, width) {
-        MyApp.canvas.Helper.updateSize({
-            height,
-            width
-        });
+        MyApp.canvas.Helper.updateSize({ height, width });
     }
 }
 
