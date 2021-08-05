@@ -36,6 +36,10 @@ class Helper extends Base {
          */
         singleton: true,
         /**
+         * @member {String|null} canvasId=null
+         */
+        canvasId: null,
+        /**
          * @member {Object[]|null} data=null
          */
         data: null,
@@ -83,7 +87,15 @@ class Helper extends Base {
      */
     afterSetItemsAmount(value, oldValue) {
         if (value && Neo.isNumber(oldValue)) {
-            console.log('afterSetItemsAmount', value);
+            let me = this;
+
+            me.stopAnimation = true;
+
+            me.generateData();
+            me.generateSeries();
+            me.renderSeries(me.canvasId, true);
+
+            me.stopAnimation = false;
         }
     }
 
@@ -139,7 +151,7 @@ class Helper extends Base {
             .crossValue(d => d.x)
             .mainValue(d => d.y)
             .size(d => d.size)
-            .equals((previousData, data) => previousData.length > 0),
+            .equals(previousData => previousData.length > 0),
 
         webglColor = color => {
             let { r, g, b, opacity } = d3.color(color).rgb();
@@ -151,9 +163,7 @@ class Helper extends Base {
             .value((d, i) => webglColor(colorScale(i)))
             .data(this.data);
 
-        series.decorate(program => {
-            fillColor(program);
-        });
+        series.decorate(program => fillColor(program));
 
         this.series = series;
     }
@@ -177,12 +187,16 @@ class Helper extends Base {
 
     /**
      * @param {String} canvasId
+     * @param {Boolean} silent=false
      */
-    renderSeries(canvasId) {
-        let webGl = Neo.currentWorker.map[canvasId].getContext('webgl');
+    renderSeries(canvasId, silent=false) {
+        let me    = this,
+            webGl = Neo.currentWorker.map[canvasId].getContext('webgl');
 
-        this.series.context(webGl);
-        this.render();
+        me.canvasId = canvasId;
+
+        me.series.context(webGl);
+        !silent && me.render();
     }
 
     /**
@@ -192,7 +206,7 @@ class Helper extends Base {
      */
     updateSize(data) {
         let webGl = this.series.context();
-console.log(this.series.prototype);
+
         Object.assign(webGl.canvas, {
             height: data.height,
             width : data.width
