@@ -173,7 +173,7 @@ console.log('check');
 
     /**
      * Dynamically import all d3 related dependencies
-     * @returns {Promise<(*)[]>}
+     * @returns {Promise<any>}
      */
     promiseImportD3() {
         let imports = [
