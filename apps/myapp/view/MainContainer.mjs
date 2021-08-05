@@ -47,6 +47,7 @@ class MainContainer extends Viewport {
                 text   : 'Stop Animation'
             }, {
                 handler: me.onStopMainButtonClick.bind(me),
+                style  : {marginLeft: '.2em'},
                 text   : 'Stop Main'
             }, {
                 handler    : me.changeItemAmount.bind(me, 10000),
@@ -138,7 +139,11 @@ class MainContainer extends Viewport {
      * @param {Object} data
      */
     onStopMainButtonClick(data) {
-        alert('test');
+        Neo.Main.alert([
+            'This alert pauses the JS main thread.\n\n',
+            'Notice that the time inside the bottom toolbar has stopped updating.\n\n',
+            'Closing this alert will resume the main thread.'
+        ].join(''));
     }
 }
 
