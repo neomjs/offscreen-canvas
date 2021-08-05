@@ -11,6 +11,11 @@ class Helper extends Base {
      */
     canvasId = null
     /**
+     * Contains height and width properties
+     * @member {Object} canvasSize=null
+     */
+    canvasSize = null
+    /**
      * @member {Object[]|null} data=null
      */
     data = null
@@ -75,6 +80,13 @@ class Helper extends Base {
 
             me.generateData();
             me.generateSeries();
+
+            // In case the d3 scripts get loaded after the canvas ownership got transferred,
+            // we need to trigger the previously prevented logic
+            if (me.canvasId) {
+                me.renderSeries(me.canvasId);
+                me.updateSize(me.canvasSize);
+            }
         });
     }
 
@@ -169,7 +181,7 @@ class Helper extends Base {
 
     /**
      * Dynamically import all d3 related dependencies
-     * @returns {Promise<any>}
+     * @returns {Promise<resolve>}
      */
     async promiseImportD3() {
         let imports = [
@@ -189,20 +201,19 @@ class Helper extends Base {
             import('../../../node_modules/@d3fc/d3fc-webgl/build/d3fc-webgl.js')
         ],
 
-        i       = 0,
-        len     = imports.length,
         modules = [],
         item;
 
-        for (; i < len; i++) {
-            item = await imports[i];
+        for (const request of imports) {
+            item = await request;
             modules.push(item);
-            //await new Promise(resolve => setTimeout(resolve, 5));
         }
 
+        // Bug: Inside the webpack based dist envs, 3dfc will copy its function to the module,
+        // instead of putting them into the global fc namespace.
+        // This hack resolves it.
         if (!self.fc) {
             self.fc = {};
-            console.log('copy to fc namespace');
 
             modules.forEach(item => {
                 if (Object.keys(item).length > 0) {
@@ -211,7 +222,7 @@ class Helper extends Base {
             });
         }
 
-        return Promise.resolve(modules);
+        return Promise.resolve();
     }
 
     /**
@@ -236,13 +247,17 @@ class Helper extends Base {
      * @param {Boolean} silent=false
      */
     renderSeries(canvasId, silent=false) {
-        let me    = this,
-            webGl = Neo.currentWorker.map[canvasId].getContext('webgl');
+        let me = this,
+            webGl;
 
         me.canvasId = canvasId;
 
-        me.series.context(webGl);
-        !silent && me.render();
+        if (me.series) {
+            webGl = Neo.currentWorker.map[canvasId].getContext('webgl');
+
+            me.series.context(webGl);
+            !silent && me.render();
+        }
     }
 
     /**
@@ -251,14 +266,20 @@ class Helper extends Base {
      * @param {Number} data.width
      */
     updateSize(data) {
-        let webGl = this.series.context();
+        let me = this;
 
-        Object.assign(webGl.canvas, {
-            height: data.height,
-            width : data.width
-        });
+        me.canvasSize = data;
 
-        webGl.viewport(0, 0, webGl.canvas.width, webGl.canvas.height);
+        if (me.series) {
+            let webGl = me.series.context();
+
+            Object.assign(webGl.canvas, {
+                height: data.height,
+                width : data.width
+            });
+
+            webGl.viewport(0, 0, webGl.canvas.width, webGl.canvas.height);
+        }
     }
 }
 

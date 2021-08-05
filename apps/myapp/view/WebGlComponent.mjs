@@ -50,6 +50,8 @@ class WebGlComponent extends Canvas {
 
             me.domListeners = domListeners;
 
+            // We need a short delay to ensure our app based remote methods got registered
+            // inside the dist envs
             setTimeout(() => {
                 // remote method access to the canvas worker
                 MyApp.canvas.Helper.renderSeries(this.getCanvasId());
@@ -57,7 +59,7 @@ class WebGlComponent extends Canvas {
                 Neo.main.DomAccess.getBoundingClientRect({id: me.id}).then(rect => {
                     me.updateSize(rect.height, rect.width);
                 });
-            }, 50);
+            }, 20);
         }
     }
 
