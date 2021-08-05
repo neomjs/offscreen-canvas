@@ -60,9 +60,9 @@ class Helper extends Base {
          */
         series: null,
         /**
-         * @member {Boolean} stopAnimation=false
+         * @member {Boolean} stopAnimation_=false
          */
-        stopAnimation: false
+        stopAnimation_: false
     }}
 
     /**
@@ -76,10 +76,20 @@ class Helper extends Base {
     }
 
     /**
+     * Triggered after the stopAnimation config got changed
+     * @param {Boolean} value
+     * @param {Boolean} oldValue
+     */
+    afterSetStopAnimation(value, oldValue) {
+        if (!value && Neo.isBoolean(oldValue)) {
+            this.render();
+        }
+    }
+
+    /**
      * @param {Boolean} enable
      */
     enableAnimation(enable) {
-        console.log(enable);
         this.stopAnimation = !enable;
     }
 

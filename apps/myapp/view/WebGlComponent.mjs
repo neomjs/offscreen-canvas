@@ -27,7 +27,7 @@ class WebGlComponent extends Canvas {
     }}
 
     /**
-     *
+     * Triggered after the id config got changed
      * @param {String} value
      * @param {String} oldValue
      */
