@@ -1,3 +1,4 @@
+import Label          from '../../../node_modules/neo.mjs/src/component/Label.mjs';
 import Toolbar        from '../../../node_modules/neo.mjs/src/container/Toolbar.mjs';
 import Viewport       from '../../../node_modules/neo.mjs/src/container/Viewport.mjs';
 import WebGlComponent from './WebGlComponent.mjs';
@@ -33,14 +34,20 @@ class MainContainer extends Viewport {
         let me = this;
 
         me.items = [{
-            module: WebGlComponent,
-            flex  : 1
+            ntype : 'container',
+            flex  : 1,
+            items : [WebGlComponent],
+            layout: {ntype: 'fit'},
+            vdom  : {tag: 'd3fc-group', 'auto-resize': true, cn: []}
         }, {
             module: Toolbar,
             flex  : 'none',
             items : [{
                 handler: me.onStopAnimationButtonClick.bind(me),
                 text   : 'Stop Animation'
+            }, {
+                handler: me.onStopMainButtonClick.bind(me),
+                text   : 'Stop Main'
             }, {
                 handler    : me.changeItemAmount.bind(me, 10000),
                 pressed    : true,
@@ -60,8 +67,29 @@ class MainContainer extends Viewport {
                 text       : `${(1000000).toLocaleString()} items`,
                 toggleGroup: 'itemAmount',
                 value      : 1000000
+            }, {
+                module   : Label,
+                reference: 'time-label',
+                style    : {marginLeft: '2em'},
+                text     : `Time: ${me.getTime()}`
             }]
         }];
+    }
+
+    /**
+     * Triggered after the mounted config got changed
+     * @param {Boolean} value
+     * @param {Boolean} oldValue
+     * @protected
+     */
+    afterSetMounted(value, oldValue) {
+        super.afterSetMounted(value, oldValue);
+
+        if (value) {
+            setInterval(() => {
+                this.down({reference: 'time-label'}).text = `Time: ${this.getTime()}`;
+            }, 1000);
+        }
     }
 
     /**
@@ -76,6 +104,14 @@ class MainContainer extends Viewport {
             if (item.toggleGroup === 'itemAmount') {
                 item.pressed = item.value === count;
             }
+        });
+    }
+
+    getTime() {
+        return new Date().toLocaleString(Neo.config.locale, {
+            hour  : '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
         });
     }
 
@@ -96,6 +132,13 @@ class MainContainer extends Viewport {
         data.component.text = buttonText;
 
         MyApp.canvas.Helper.enableAnimation(enableAnimation);
+    }
+
+    /**
+     * @param {Object} data
+     */
+    onStopMainButtonClick(data) {
+        alert('test');
     }
 }
 

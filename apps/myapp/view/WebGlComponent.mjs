@@ -12,17 +12,11 @@ class WebGlComponent extends Canvas {
          */
         className: 'MyApp.view.WebGlComponent',
         /**
-         * @member {String[]} cls=['neo-webgl-component']
-         */
-        cls: ['neo-webgl-component'],
-        /**
          * @member {Object} _vdom
          */
         _vdom:
-        {tag: 'd3fc-group', 'auto-resize': true, cls: ['neo-canvas-wrapper'], cn: [
-            {tag: 'd3fc-canvas', cn: [
-                {tag: 'canvas'}
-            ]}
+        {tag: 'd3fc-canvas', cn: [
+            {tag: 'canvas'}
         ]}
     }}
 
@@ -34,8 +28,7 @@ class WebGlComponent extends Canvas {
     afterSetId(value, oldValue) {
         let me = this;
 
-        me.vdom.id = me.getWrapperId();
-        me.vdom.cn[0].cn[0].id = `${value}__canvas`;
+        me.vdom.cn[0].id = `${value}__canvas`;
 
         super.afterSetId(value, oldValue);
     }
@@ -71,30 +64,7 @@ class WebGlComponent extends Canvas {
      * @returns {String}
      */
     getCanvasId() {
-        return this.vdom.cn[0].cn[0].id;
-    }
-
-
-    /**
-     * @returns {Object} The new vdom root
-     */
-    getVdomRoot() {
-        return this.vdom.cn[0];
-    }
-
-    /**
-     * @returns {Object} The new vnode root
-     */
-    getVnodeRoot() {
-        return this.vnode.childNodes[0];
-    }
-
-    /**
-     *
-     * @returns {String}
-     */
-    getWrapperId() {
-        return `${this.id}__wrapper`;
+        return this.vdom.cn[0].id;
     }
 
     /**
