@@ -70,12 +70,9 @@ class Helper extends Base {
 
         me.promiseImportD3().then(modules => {
             console.log(modules);
-            console.log(self); // todo: d3fc => fc is undefined in dist versions
 
             me.xScale = d3.scaleLinear().domain([-5, 5]);
             me.yScale = d3.scaleLinear().domain([-5, 5]);
-
-            console.log(d3);
 
             me.generateData();
             me.generateSeries();
@@ -132,7 +129,7 @@ class Helper extends Base {
     generateData() {
         let randomNormal    = d3.randomNormal(0, 1),
             randomLogNormal = d3.randomLogNormal();
-console.log('check');
+
         this.data = Array.from({ length: this.itemsAmount }, () => ({
             x   : randomNormal(),
             y   : randomNormal(),
@@ -175,7 +172,7 @@ console.log('check');
      * Dynamically import all d3 related dependencies
      * @returns {Promise<any>}
      */
-    promiseImportD3() {
+    async promiseImportD3() {
         let imports = [
             import('../../../node_modules/d3-array/dist/d3-array.js'),
             import('../../../node_modules/d3-color/dist/d3-color.js'),
@@ -191,9 +188,30 @@ console.log('check');
             import('../../../node_modules/@d3fc/d3fc-rebind/build/d3fc-rebind.js'),
             import('../../../node_modules/@d3fc/d3fc-series/build/d3fc-series.js'),
             import('../../../node_modules/@d3fc/d3fc-webgl/build/d3fc-webgl.js')
-        ];
+        ],
 
-        return Promise.all(imports);
+        i       = 0,
+        len     = imports.length,
+        modules = [],
+        item;
+
+        for (; i < len; i++) {
+            item = await imports[i];
+            modules.push(item);
+            //await new Promise(resolve => setTimeout(resolve, 5));
+        }
+
+        if (!self.fc) {
+            self.fc = {};
+
+            modules.forEach(item => {
+                if (Object.keys(item).length > 0) {
+                    Object.assign(self.fc, item);
+                }
+            });
+        }
+
+        return Promise.resolve(modules);
     }
 
     /**

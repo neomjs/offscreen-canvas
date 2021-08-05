@@ -1,7 +1,7 @@
+import Helper from './canvas/Helper.mjs';
+
 const onStart = () => {
-    import('./canvas/Helper.mjs').then(module => {
-        console.log(module.default);
-    })
+    console.log(Helper);
 };
 
 export {onStart as onStart};
