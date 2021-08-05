@@ -70,6 +70,8 @@ class MainContainer extends Viewport {
     changeItemAmount(count) {
         let me = this;
 
+        MyApp.canvas.Helper.changeItemsAmount(count);
+
         me.items[1].items.forEach(item => {
             if (item.toggleGroup === 'itemAmount') {
                 item.pressed = item.value === count;

@@ -45,11 +45,12 @@ class Helper extends Base {
         itemsAmount_: 10000,
         /**
          * Remote method access for other workers
-         * @member {Object} remote={app:['renderSeries']}
+         * @member {Object} remote
          * @protected
          */
         remote: {
             app: [
+                'changeItemsAmount',
                 'enableAnimation',
                 'renderSeries',
                 'updateSize'
@@ -95,6 +96,13 @@ class Helper extends Base {
         if (!value && Neo.isBoolean(oldValue)) {
             this.render();
         }
+    }
+
+    /**
+     * @param {Number} count
+     */
+    changeItemsAmount(count) {
+        this.itemsAmount = count;
     }
 
     /**
