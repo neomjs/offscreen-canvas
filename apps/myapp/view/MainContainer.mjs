@@ -21,21 +21,48 @@ class MainContainer extends Viewport {
         /**
          * @member {Object} layout={ntype:'vbox',align:'stretch'}
          */
-        layout: {ntype: 'vbox', align: 'stretch'},
-        /**
-         * @member {Object[]} items
-         */
-        items: [{
+        layout: {ntype: 'vbox', align: 'stretch'}
+    }}
+
+    /**
+     * @param {Object} config
+     */
+    constructor(config) {
+        super(config);
+
+        let me = this;
+
+        me.items = [{
             module: WebGlComponent,
             flex  : 1
         }, {
             module: Toolbar,
             flex  : 'none',
             items : [{
-                text: 'Stop Animation'
+                handler: me.onStopAnimationButtonClick.bind(me),
+                text   : 'Stop Animation'
             }]
-        }]
-    }}
+        }];
+    }
+
+    /**
+     * @param {Object} data
+     */
+    onStopAnimationButtonClick(data) {
+        let enableAnimation = true,
+            buttonText;
+
+        if (data.component.text === 'Stop Animation') {
+            buttonText      = 'Start Animation';
+            enableAnimation = false;
+        } else {
+            buttonText = 'Stop Animation';
+        }
+
+        data.component.text = buttonText;
+
+        MyApp.canvas.Helper.enableAnimation(enableAnimation);
+    }
 }
 
 Neo.applyClassConfig(MainContainer);

@@ -79,6 +79,7 @@ class Helper extends Base {
      * @param {Boolean} enable
      */
     enableAnimation(enable) {
+        console.log(enable);
         this.stopAnimation = !enable;
     }
 
@@ -135,12 +136,14 @@ class Helper extends Base {
         let me   = this,
             ease = 5 * (0.51 + 0.49 * Math.sin(Date.now() / 1e3));
 
-        xScale.domain([-ease, ease]);
-        yScale.domain([-ease, ease]);
+        if (!me.stopAnimation) {
+            xScale.domain([-ease, ease]);
+            yScale.domain([-ease, ease]);
 
-        me.series(me.data);
+            me.series(me.data);
 
-        requestAnimationFrame(me.render.bind(me));
+            requestAnimationFrame(me.render.bind(me));
+        }
     }
 
     /**
