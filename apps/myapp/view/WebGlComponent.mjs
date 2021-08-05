@@ -59,6 +59,10 @@ class WebGlComponent extends Canvas {
 
             // remote method access to the canvas worker
             MyApp.canvas.Helper.renderSeries(this.getCanvasId());
+
+            Neo.main.DomAccess.getBoundingClientRect({id: me.id}).then(rect => {
+                me.updateSize(rect.height, rect.width);
+            });
         }
     }
 
@@ -99,9 +103,17 @@ class WebGlComponent extends Canvas {
     onMeasure(data) {
         let node = data.path[0];
 
+        this.updateSize(node.clientHeight, node.clientWidth);
+    }
+
+    /**
+     * @param {Number} height
+     * @param {Number} width
+     */
+    updateSize(height, width) {
         MyApp.canvas.Helper.updateSize({
-            height: node.clientHeight,
-            width : node.clientWidth
+            height,
+            width
         });
     }
 }

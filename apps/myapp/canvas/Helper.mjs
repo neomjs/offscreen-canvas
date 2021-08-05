@@ -40,7 +40,7 @@ class Helper extends Base {
          */
         data: null,
         /**
-         * @member {Number} itemsAmount=1000
+         * @member {Number} itemsAmount=10000
          */
         itemsAmount: 10000,
         /**
@@ -134,7 +134,7 @@ class Helper extends Base {
     /**
      * @param {String} canvasId
      */
-    renderSeries(canvasId) {console.log(canvasId);
+    renderSeries(canvasId) {
         let webGl = Neo.currentWorker.map[canvasId].getContext('webgl');
 
         this.series.context(webGl);
