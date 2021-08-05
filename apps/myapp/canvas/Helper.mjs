@@ -50,6 +50,7 @@ class Helper extends Base {
          */
         remote: {
             app: [
+                'enableAnimation',
                 'renderSeries',
                 'updateSize'
             ]
@@ -57,7 +58,11 @@ class Helper extends Base {
         /**
          * @member {Function|null} series=null
          */
-        series: null
+        series: null,
+        /**
+         * @member {Boolean} stopAnimation=false
+         */
+        stopAnimation: false
     }}
 
     /**
@@ -68,6 +73,13 @@ class Helper extends Base {
 
         this.generateData();
         this.generateSeries();
+    }
+
+    /**
+     * @param {Boolean} enable
+     */
+    enableAnimation(enable) {
+        this.stopAnimation = !enable;
     }
 
     /**
@@ -142,7 +154,6 @@ class Helper extends Base {
     }
 
     /**
-     *
      * @param {Object} data
      * @param {Number} data.height
      * @param {Number} data.width
