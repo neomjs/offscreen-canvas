@@ -41,8 +41,27 @@ class MainContainer extends Viewport {
             items : [{
                 handler: me.onStopAnimationButtonClick.bind(me),
                 text   : 'Stop Animation'
+            }, {
+                handler: me.changeItemAmount.bind(me, 10000),
+                style  : {marginLeft: '2em'},
+                text   : `${(10000).toLocaleString()} items`
+            }, {
+                handler: me.changeItemAmount.bind(me, 100000),
+                style  : {marginLeft: '.2em'},
+                text   : `${(100000).toLocaleString()} items`
+            }, {
+                handler: me.changeItemAmount.bind(me, 1000000),
+                style  : {marginLeft: '.2em'},
+                text   : `${(1000000).toLocaleString()} items`
             }]
         }];
+    }
+
+    /**
+     * @param {Number} count
+     */
+    changeItemAmount(count) {
+        console.log('changeItemAmount', count);
     }
 
     /**
