@@ -68,8 +68,6 @@ class MainContainer extends Viewport {
      * @param {Number} count
      */
     changeItemAmount(count) {
-        console.log('changeItemAmount', count);
-
         let me = this;
 
         me.items[1].items.forEach(item => {

@@ -40,9 +40,9 @@ class Helper extends Base {
          */
         data: null,
         /**
-         * @member {Number} itemsAmount=10000
+         * @member {Number} itemsAmount_=10000
          */
-        itemsAmount: 10000,
+        itemsAmount_: 10000,
         /**
          * Remote method access for other workers
          * @member {Object} remote={app:['renderSeries']}
@@ -73,6 +73,17 @@ class Helper extends Base {
 
         this.generateData();
         this.generateSeries();
+    }
+
+    /**
+     * Triggered after the itemsAmount config got changed
+     * @param {Number} value
+     * @param {Number} oldValue
+     */
+    afterSetItemsAmount(value, oldValue) {
+        if (value && Neo.isNumber(oldValue)) {
+            console.log('afterSetItemsAmount', value);
+        }
     }
 
     /**
@@ -173,7 +184,7 @@ class Helper extends Base {
      */
     updateSize(data) {
         let webGl = this.series.context();
-
+console.log(this.series.prototype);
         Object.assign(webGl.canvas, {
             height: data.height,
             width : data.width
