@@ -6,6 +6,22 @@ package-lock.json
 /dist
 /docs/output
 /examples
+
+!/node_modules/d3-array/dist/d3-array.js
+!/node_modules/d3-color/dist/d3-color.js
+!/node_modules/d3-format/dist/d3-format.js
+!/node_modules/d3-interpolate/dist/d3-interpolate.js
+!/node_modules/d3-scale-chromatic/dist/d3-scale-chromatic.js
+!/node_modules/d3-random/dist/d3-random.js
+!/node_modules/d3-scale/dist/d3-scale.js
+!/node_modules/d3-shape/dist/d3-shape.js
+!/node_modules/d3-time-format/dist/d3-time-format.js
+!/node_modules/@d3fc/d3fc-extent/build/d3fc-extent.js
+!/node_modules/@d3fc/d3fc-random-data/build/d3fc-random-data.js
+!/node_modules/@d3fc/d3fc-rebind/build/d3fc-rebind.js
+!/node_modules/@d3fc/d3fc-series/build/d3fc-series.js
+!/node_modules/@d3fc/d3fc-webgl/build/d3fc-webgl.js
+
 /node_modules
 
 # IDEs and editors
