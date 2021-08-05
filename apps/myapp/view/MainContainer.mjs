@@ -42,17 +42,24 @@ class MainContainer extends Viewport {
                 handler: me.onStopAnimationButtonClick.bind(me),
                 text   : 'Stop Animation'
             }, {
-                handler: me.changeItemAmount.bind(me, 10000),
-                style  : {marginLeft: '2em'},
-                text   : `${(10000).toLocaleString()} items`
+                handler    : me.changeItemAmount.bind(me, 10000),
+                pressed    : true,
+                style      : {marginLeft: '2em'},
+                text       : `${(10000).toLocaleString()} items`,
+                toggleGroup: 'itemAmount',
+                value      : 10000
             }, {
-                handler: me.changeItemAmount.bind(me, 100000),
-                style  : {marginLeft: '.2em'},
-                text   : `${(100000).toLocaleString()} items`
+                handler    : me.changeItemAmount.bind(me, 100000),
+                style      : {marginLeft: '.2em'},
+                text       : `${(100000).toLocaleString()} items`,
+                toggleGroup: 'itemAmount',
+                value      : 100000
             }, {
-                handler: me.changeItemAmount.bind(me, 1000000),
-                style  : {marginLeft: '.2em'},
-                text   : `${(1000000).toLocaleString()} items`
+                handler    : me.changeItemAmount.bind(me, 1000000),
+                style      : {marginLeft: '.2em'},
+                text       : `${(1000000).toLocaleString()} items`,
+                toggleGroup: 'itemAmount',
+                value      : 1000000
             }]
         }];
     }
@@ -62,6 +69,14 @@ class MainContainer extends Viewport {
      */
     changeItemAmount(count) {
         console.log('changeItemAmount', count);
+
+        let me = this;
+
+        me.items[1].items.forEach(item => {
+            if (item.toggleGroup === 'itemAmount') {
+                item.pressed = item.value === count;
+            }
+        });
     }
 
     /**
