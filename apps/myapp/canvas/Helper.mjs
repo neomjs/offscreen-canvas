@@ -6,6 +6,27 @@ import Base from '../../../node_modules/neo.mjs/src/core/Base.mjs';
  * @singleton
  */
 class Helper extends Base {
+    /**
+     * @member {String|null} canvasId=null
+     */
+    canvasId = null
+    /**
+     * @member {Object[]|null} data=null
+     */
+    data = null
+    /**
+     * @member {Function|null} series=null
+     */
+    series = null
+    /**
+     * @member {Function|null} xScale=null
+     */
+    xScale = null
+    /**
+     * @member {Function|null} yScale=null
+     */
+    yScale = null
+
     static getConfig() {return {
         /**
          * @member {String} className='MyApp.canvas.Helper'
@@ -17,14 +38,6 @@ class Helper extends Base {
          * @protected
          */
         singleton: true,
-        /**
-         * @member {String|null} canvasId=null
-         */
-        canvasId: null,
-        /**
-         * @member {Object[]|null} data=null
-         */
-        data: null,
         /**
          * @member {Number} itemsAmount_=10000
          */
@@ -43,21 +56,9 @@ class Helper extends Base {
             ]
         },
         /**
-         * @member {Function|null} series=null
-         */
-        series: null,
-        /**
          * @member {Boolean} stopAnimation_=false
          */
-        stopAnimation_: false,
-        /**
-         * @member {Function|null} xScale=null
-         */
-        xScale: null,
-        /**
-         * @member {Function|null} yScale=null
-         */
-        yScale: null
+        stopAnimation_: false
     }}
 
     /**
