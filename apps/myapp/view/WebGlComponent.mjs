@@ -59,7 +59,7 @@ class WebGlComponent extends Canvas {
                 Neo.main.DomAccess.getBoundingClientRect({id: me.id}).then(rect => {
                     me.updateSize(rect.height, rect.width);
                 });
-            }, 20);
+            }, 50);
         }
     }
 
