@@ -1,6 +1,6 @@
 {
     "name": "neo-offscreen-canvas-demo",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "repository": {
         "type": "git",
         "url": "https://github.com/neomjs/offscreen-canvas.git"
@@ -26,6 +26,6 @@
         "d3": "^7.0.0",
         "d3fc": "^15.2.3",
         "fs-extra": "^10.0.0",
-        "neo.mjs": "^2.2.82"
+        "neo.mjs": "^3.0.0"
     }
 }
