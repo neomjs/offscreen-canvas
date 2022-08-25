@@ -1,5 +1,5 @@
 import Label          from '../../../node_modules/neo.mjs/src/component/Label.mjs';
-import Toolbar        from '../../../node_modules/neo.mjs/src/container/Toolbar.mjs';
+import Toolbar        from '../../../node_modules/neo.mjs/src/toolbar/Base.mjs';
 import Viewport       from '../../../node_modules/neo.mjs/src/container/Viewport.mjs';
 import WebGlComponent from './WebGlComponent.mjs';
 
