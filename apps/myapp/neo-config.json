@@ -6,6 +6,6 @@
     "themes"          : ["neo-theme-light"],
     "useCanvasWorker" : true,
     "useFontAwesome"  : false,
-    "useServiceWorker": false,
+    "useServiceWorker": "dist/production",
     "workerBasePath"  : "../../node_modules/neo.mjs/src/worker/"
 }
