@@ -5,7 +5,7 @@ import Canvas from '../../../node_modules/neo.mjs/src/component/Canvas.mjs';
  * @extends Neo.component.Canvas
  */
 class WebGlComponent extends Canvas {
-    static getConfig() {return {
+    static config = {
         /**
          * @member {String} className='MyApp.view.WebGlComponent'
          * @protected
@@ -18,7 +18,7 @@ class WebGlComponent extends Canvas {
         {tag: 'd3fc-canvas', cn: [
             {tag: 'canvas'}
         ]}
-    }}
+    }
 
     /**
      * Triggered after the id config got changed
@@ -30,7 +30,7 @@ class WebGlComponent extends Canvas {
 
         me.vdom.cn[0].id = `${value}__canvas`;
 
-        super.afterSetId(value, oldValue);
+        super.afterSetId(value, oldValue)
     }
 
     /**
@@ -58,8 +58,8 @@ class WebGlComponent extends Canvas {
 
                 Neo.main.DomAccess.getBoundingClientRect({id: me.id}).then(rect => {
                     me.updateSize(rect.height, rect.width);
-                });
-            }, 50);
+                })
+            }, 50)
         }
     }
 
@@ -68,7 +68,7 @@ class WebGlComponent extends Canvas {
      * @returns {String}
      */
     getCanvasId() {
-        return this.vdom.cn[0].id;
+        return this.vdom.cn[0].id
     }
 
     /**
@@ -76,7 +76,7 @@ class WebGlComponent extends Canvas {
      */
     onMeasure(data) {
         let node = data.path[0];
-        this.updateSize(node.clientHeight, node.clientWidth);
+        this.updateSize(node.clientHeight, node.clientWidth)
     }
 
     /**
@@ -84,10 +84,8 @@ class WebGlComponent extends Canvas {
      * @param {Number} width
      */
     updateSize(height, width) {
-        MyApp.canvas.Helper.updateSize({ height, width });
+        MyApp.canvas.Helper.updateSize({ height, width })
     }
 }
 
-Neo.applyClassConfig(WebGlComponent);
-
-export {WebGlComponent as default};
+export default Neo.setupClass(WebGlComponent);

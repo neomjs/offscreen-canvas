@@ -6,33 +6,7 @@ import Base from '../../../node_modules/neo.mjs/src/core/Base.mjs';
  * @singleton
  */
 class Helper extends Base {
-    /**
-     * @member {String|null} canvasId=null
-     */
-    canvasId = null
-    /**
-     * Contains height and width properties
-     * @member {Object} canvasSize=null
-     */
-    canvasSize = null
-    /**
-     * @member {Object[]|null} data=null
-     */
-    data = null
-    /**
-     * @member {Function|null} series=null
-     */
-    series = null
-    /**
-     * @member {Function|null} xScale=null
-     */
-    xScale = null
-    /**
-     * @member {Function|null} yScale=null
-     */
-    yScale = null
-
-    static getConfig() {return {
+    static config = {
         /**
          * @member {String} className='MyApp.canvas.Helper'
          * @protected
@@ -64,7 +38,33 @@ class Helper extends Base {
          * @member {Boolean} stopAnimation_=false
          */
         stopAnimation_: false
-    }}
+    }
+
+    /**
+     * @member {String|null} canvasId=null
+     */
+    canvasId = null
+    /**
+     * Contains height and width properties
+     * @member {Object} canvasSize=null
+     */
+    canvasSize = null
+    /**
+     * @member {Object[]|null} data=null
+     */
+    data = null
+    /**
+     * @member {Function|null} series=null
+     */
+    series = null
+    /**
+     * @member {Function|null} xScale=null
+     */
+    xScale = null
+    /**
+     * @member {Function|null} yScale=null
+     */
+    yScale = null
 
     /**
      * @param {Object} config
@@ -85,9 +85,9 @@ class Helper extends Base {
             // we need to trigger the previously prevented logic
             if (me.canvasId) {
                 me.renderSeries(me.canvasId);
-                me.updateSize(me.canvasSize);
+                me.updateSize(me.canvasSize)
             }
-        });
+        })
     }
 
     /**
@@ -105,7 +105,7 @@ class Helper extends Base {
             me.generateSeries();
             me.renderSeries(me.canvasId, true);
 
-            me.stopAnimation = false;
+            me.stopAnimation = false
         }
     }
 
@@ -116,7 +116,7 @@ class Helper extends Base {
      */
     afterSetStopAnimation(value, oldValue) {
         if (!value && Neo.isBoolean(oldValue)) {
-            this.render();
+            this.render()
         }
     }
 
@@ -124,14 +124,14 @@ class Helper extends Base {
      * @param {Number} count
      */
     changeItemsAmount(count) {
-        this.itemsAmount = count;
+        this.itemsAmount = count
     }
 
     /**
      * @param {Boolean} enable
      */
     enableAnimation(enable) {
-        this.stopAnimation = !enable;
+        this.stopAnimation = !enable
     }
 
     /**
@@ -145,7 +145,7 @@ class Helper extends Base {
             x   : randomNormal(),
             y   : randomNormal(),
             size: randomLogNormal() * 10
-        }));
+        }))
     }
 
     /**
@@ -176,7 +176,7 @@ class Helper extends Base {
 
         series.decorate(program => fillColor(program));
 
-        me.series = series;
+        me.series = series
     }
 
     /**
@@ -221,10 +221,10 @@ class Helper extends Base {
                 if (Object.keys(item).length > 0) {
                     Object.assign(self.fc, item);
                 }
-            });
+            })
         }
 
-        return Promise.resolve();
+        return Promise.resolve()
     }
 
     /**
@@ -240,7 +240,7 @@ class Helper extends Base {
 
             me.series(me.data);
 
-            requestAnimationFrame(me.render.bind(me));
+            requestAnimationFrame(me.render.bind(me))
         }
     }
 
@@ -258,7 +258,7 @@ class Helper extends Base {
             webGl = Neo.currentWorker.map[canvasId].getContext('webgl');
 
             me.series.context(webGl);
-            !silent && me.render();
+            !silent && me.render()
         }
     }
 
@@ -280,15 +280,9 @@ class Helper extends Base {
                 width : data.width
             });
 
-            webGl.viewport(0, 0, webGl.canvas.width, webGl.canvas.height);
+            webGl.viewport(0, 0, webGl.canvas.width, webGl.canvas.height)
         }
     }
 }
 
-Neo.applyClassConfig(Helper);
-
-let instance = Neo.create(Helper);
-
-Neo.applyToGlobalNs(instance);
-
-export default instance;
+export default Neo.setupClass(Helper);
