@@ -27,5 +27,10 @@
             "input" : "./src/worker/VDom.mjs",
             "output": "vdomworker.js"
         }
-    }
+    },
+
+    "apps": [
+        "Docs",
+        "MyApp"
+    ]
 }
